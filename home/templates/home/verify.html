@@ -4,7 +4,8 @@
     <form method="POST">
         {% csrf_token %}
         <div>
-            {{ form }}
+            {{ verify_form }}
+            <button type="submit" class="reserve-btn"> ok </button>
         </div>
     </form>
 {% endblock %}

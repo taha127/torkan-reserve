@@ -2,7 +2,7 @@ from django.shortcuts import render ,redirect
 from .forms import PhoneNumberForm
 from .models import User
 from random import randint ,random
-from .utils import send_code , verificationCodeForm
+from .utils import send_code , VerificationCodeForm
 
 
 
@@ -72,6 +72,16 @@ from .models import User
 from random import randint
 from .utils import send_code  # ایمپورت تابع ارسال پیامک
 
+
+
+def verify(request):
+    verify_form = VerificationCodeForm()
+    return render(request ,'home/verify.html' , {'verify_form':verify_form} )
+
+
+
+def welcome(request):
+    return render(request ,'home/welcome.html'  )
 def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
@@ -96,6 +106,8 @@ def phone_number_view(request):
             # ذخیره شماره در سشن برای مرحله بعد
             request.session['phone_number'] = phone_number
             return redirect('code_view')  # هدایت به صفحه تایید کد
+            if token == verification_code :
+                return redirect('welcome')
     else:
         form = PhoneNumberForm()
 

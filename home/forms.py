@@ -1,23 +1,13 @@
 from django import forms
-from kavenegar import KavenegarAPI
+from . models import User
 
-class PhoneNumberForm(forms.Form):
+class PhoneNumberForm(forms.ModelForm):
     class Meta:
 
-        phone_number = forms.CharField(max_length=11,)
+        model = User
+        fields = ['name' , 'phone_number' ]
 
 
-def send_verification_code(phone_number):
-    api_key = '***REMOVED***'
-    api = KavenegarAPI(api_key)
-    params = {
-        'receptor': phone_number,
-        'template' : 'verifi'
+class VerificationCodeForm(forms.Form):
 
-    }
-    response = api.sms_send(params)
-    return response
-
-class verificationCodeForm(forms.Form):
-
-    verification_code = models.CharField(max_length=4, null=True, blank=True)
+    verification_code = forms.CharField(max_length=4, required=False)

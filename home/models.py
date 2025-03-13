@@ -103,6 +103,7 @@ class Time(models.Model):
 class User(models.Model):
 
     name = models.CharField(max_length=50 , verbose_name= 'نام و نام خانوادگی ')
-    phone_number = models.CharField(max_length=15, verbose_name='تلفن همراه')
-    verification_code = models.CharField(max_length=4 , null=True , blank=True)
-    is_verified = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=11, verbose_name='تلفن همراه')
+
+    def __str__(self):
+        return f" کاربر {self.name} با شماره تلفن {self.phone_number}درخواست رزرو نوبت دارد ."

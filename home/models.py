@@ -78,8 +78,8 @@ class OperationSetting(models.Model):
 
     display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
 
-
-
+#نام و نام خانوادگی
+#شماره تلفن همراه
 
 class Time(models.Model):
     Unit = [
@@ -103,7 +103,7 @@ class Time(models.Model):
 class User(models.Model):
 
     name = models.CharField(max_length=50 , verbose_name= 'نام و نام خانوادگی ')
-    phone_number = models.CharField(max_length=11, verbose_name='تلفن همراه')
+    phone_number = models.CharField(max_length=11, verbose_name= ' شماره تلفن همراه ')
 
     def __str__(self):
         return f" کاربر {self.name} با شماره تلفن {self.phone_number}درخواست رزرو نوبت دارد ."

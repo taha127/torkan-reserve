@@ -10,4 +10,4 @@ class PhoneNumberForm(forms.ModelForm):
 
 class VerificationCodeForm(forms.Form):
 
-    verification_code = forms.CharField(max_length=4, required=False)
+    verification_code = forms.CharField(max_length=4, required=False ,label='کد اعتبار سنجی' )

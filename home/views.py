@@ -1,25 +1,18 @@
-# from django.shortcuts import render ,redirect
-# from .forms import PhoneNumberForm
-# from .models import User
-# from random import randint ,random
-# from .utils import send_code , VerificationCodeForm
-
 from django.shortcuts import render, redirect
 from .forms import PhoneNumberForm, VerificationCodeForm
 from .models import User
 from random import randint
-from .utils import send_code  # ایمپورت تابع ارسال پیامک
+from .utils import send_code
 
 
-# Create your views here.
 def home(request):
-
-    return render(request , 'home/home.html')
-
+    return render(request, 'home/home.html')
 
 
 def welcome(request):
-    return render(request ,'home/welcome.html'  )
+    return render(request, 'home/welcome.html')
+
+
 def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
@@ -70,11 +63,4 @@ def verify(request):
         form = VerificationCodeForm()
 
     return render(request, 'home/verify.html', {'verify_form': form})
-
-
-def welcome(request):
-    return render(request, 'home/welcome.html')
-
-
-
 

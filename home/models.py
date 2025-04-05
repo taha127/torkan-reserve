@@ -1,39 +1,36 @@
+from re import search
+
 from django.db import models
 from xml.dom import ValidationErr
 from django.core.exceptions import ValidationError
 import jdatetime
-from django.core.validators import MinValueValidator , MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
 
 class Operation(models.Model):
-
-    operation_name = models.CharField(max_length=50 , verbose_name= 'نام عملیات ')
-
+    operation_name = models.CharField(max_length=50, verbose_name='نام عملیات ')
 
     def __str__(self):
-            return self.operation_name
-
-
-
+        return self.operation_name
 
 
 class OperationSetting(models.Model):
-
     Unit = [
-        ("gal","گالن"),
-        ("but","بوته",),
-        ("kilo","کیلو گرم")
+        ("gal", "گالن"),
+        ("but", "بوته",),
+        ("kilo", "کیلو گرم")
     ]
 
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
-    unit_capacity = models.CharField(choices=Unit , max_length=10 ,null=True, blank=True ,verbose_name='واحد محاسبه ')
+    unit_capacity = models.CharField(choices=Unit, max_length=10, null=True, blank=True, verbose_name='واحد محاسبه ')
     capacity = models.IntegerField(default=0, verbose_name='تعداد کوره برای انجام این عملیات ')
-    capacity_materials = models.IntegerField(default=1 , verbose_name= 'حجم مواد')
-    zamini = models.BooleanField(verbose_name= 'ذوب زمینی دارد؟', default=False)
-    Product = models.CharField( max_length=20 ,null=True, blank=True , verbose_name='نام محصول')
-    #برای مثال تعداد هر ظرفیت برابر 5 بوته است
+    capacity_materials = models.IntegerField(default=1, verbose_name='حجم مواد')
+    zamini = models.BooleanField(verbose_name='ذوب زمینی دارد؟', default=False)
+    Product = models.CharField(max_length=20, null=True, blank=True, verbose_name='نام محصول')
+
+    # برای مثال تعداد هر ظرفیت برابر 5 بوته است
 
     def calculation(self):
         Cap = 0
@@ -70,7 +67,6 @@ class OperationSetting(models.Model):
 
             Finaltime = Cap * 2
 
-
         return f"مدت زمان ذوب این مواد {Finaltime} ساعت میباشد"
 
     def display_calculation(self):
@@ -78,8 +74,18 @@ class OperationSetting(models.Model):
 
     display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
 
-#نام و نام خانوادگی
-#شماره تلفن همراه
+
+# نام و نام خانوادگی
+# شماره تلفن همراه
+
+
+class User(models.Model):
+    name = models.CharField(max_length=50, verbose_name='نام و نام خانوادگی ')
+    phone_number = models.CharField(max_length=11, verbose_name=' شماره تلفن همراه ')
+
+    def __str__(self):
+        return f" کاربر {self.name} - {self.phone_number}"
+
 
 class Time(models.Model):
     Unit = [
@@ -88,22 +94,13 @@ class Time(models.Model):
         ("kilo", "کیلو گرم")
     ]
 
-    username = models.CharField(max_length=50 , verbose_name= 'نام کاربری')
-    phone_number = models.CharField(max_length=11 , verbose_name='تلفن همراه')
-    status_date = models.DateField(default=jdatetime.date.today ,  null=True , blank=True ,verbose_name='تاریخ ' )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر',)
+    status_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
-    volume = models.IntegerField(verbose_name= 'حجم مواد',  null=True, blank=True )
-    unit = models.CharField(choices=Unit,max_length=15 , verbose_name='واحد محاسبه', null=True, blank=True )
-    start_session = models.TimeField(max_length=20 , verbose_name='از ساعت ', null=True, blank=True, default='08:00')
-    end_session = models.TimeField(max_length=20 , verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
+    volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
+    unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
+    start_session = models.TimeField(max_length=20, verbose_name='از ساعت ', null=True, blank=True, default='08:00')
+    end_session = models.TimeField(max_length=20, verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
 
     def __str__(self):
-        return f"{self.username}{self.status_date}{self.operation}"
-
-class User(models.Model):
-
-    name = models.CharField(max_length=50 , verbose_name= 'نام و نام خانوادگی ')
-    phone_number = models.CharField(max_length=11, verbose_name= ' شماره تلفن همراه ')
-
-    def __str__(self):
-        return f" کاربر {self.name} با شماره تلفن {self.phone_number}درخواست رزرو نوبت دارد ."
+        return f"{self.user}{self.status_date}{self.operation}"

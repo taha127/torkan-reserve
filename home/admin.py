@@ -5,8 +5,8 @@ from django_jalali.admin.filters import JDateFieldListFilter
 
 @admin.register(Time)
 class TimeAdmin(admin.ModelAdmin):
-    list_display = ('username', 'phone_number', 'status_date', 'start_session','volume','unit', )
-    search_fields = ('username', 'phone_number')
+    list_display = ('user', 'status_date', 'start_session','volume','unit',)
+    search_fields = ('user__name', 'user__phone_number',)
     list_filter = (('status_date', JDateFieldListFilter), 'start_session')
     ordering = ('status_date',)
 

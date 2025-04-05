@@ -1,9 +1,14 @@
 from django import forms
 import requests
+from environs import Env
+
+# This is for loading environment variables from a .env file
+env = Env()
+env.read_env()
 
 
 def send_code(phone_number, token):
-    api_key = "***REMOVED***"
+    api_key = env("API_KEY")
     url = f"https://api.kavenegar.com/v1/{api_key}/verify/lookup.json"
 
     params = {

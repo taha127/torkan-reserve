@@ -9,6 +9,7 @@ class TimeAdmin(admin.ModelAdmin):
     search_fields = ('user__name', 'user__phone_number',)
     list_filter = (('status_date', JDateFieldListFilter), 'start_session')
     ordering = ('status_date',)
+    autocomplete_fields = ('user',)
 
 
 
@@ -27,3 +28,4 @@ class OperationSettingAdmin(admin.ModelAdmin):
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['name', 'phone_number' ]
+    search_fields = ['name',]

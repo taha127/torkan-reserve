@@ -1,0 +1,8 @@
+.venv/
+venv/
+db.sqlite3
+.vscode/
+.idea/
+Dockerfile
+docker-compose.yml
+__pycache__/

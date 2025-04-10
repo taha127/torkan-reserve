@@ -1,5 +1,7 @@
 from django import forms
-from . models import User
+from . models import User ,Time
+from django_jalali.forms import JalaliDateWidget
+from django_jalali.admin.widgets import AdminjDateWidget
 
 class PhoneNumberForm(forms.ModelForm):
     class Meta:
@@ -11,3 +13,7 @@ class PhoneNumberForm(forms.ModelForm):
 class VerificationCodeForm(forms.Form):
 
     verification_code = forms.CharField(max_length=4, required=False ,label='کد اعتبار سنجی' )
+
+
+
+

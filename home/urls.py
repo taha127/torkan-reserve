@@ -6,7 +6,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('register/', views.phone_number_view, name='register'),
     path('register/code/' , views.verify, name='code_view'),
-    path('register/code/welcome' ,views.welcome, name='welcome')
-
+    path('api/reservations/' ,views.reservation_api, name='reservation_api' ),
+    path('register/code/calendar/', views.calendar, name='calendar'),
+    path('register/code/calendar/welcome/' ,views.welcome, name='welcome'),
 
 ]

@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .forms import PhoneNumberForm, VerificationCodeForm
-from .models import User
 from random import randint
 from .utils import send_code
+from .models import Time , User
+import jdatetime
 
 
 def home(request):
@@ -56,7 +58,7 @@ def verify(request):
                 request.session.pop('phone_number', None)
                 request.session.pop('name', None)
 
-                return redirect('welcome')
+                return redirect('calendar')
             else:
                 form.add_error('verification_code', 'کد وارد شده اشتباه است')
     else:
@@ -64,3 +66,18 @@ def verify(request):
 
     return render(request, 'home/verify.html', {'verify_form': form})
 
+
+def reservation_api(request):
+    reservations = Time.objects.all()
+    events = [
+        {
+            'title': 'رزرو شده',
+            'start': jdatetime.date.fromgregorian(date=res.shamsi_date).isoformat(),  # تبدیل به شمسی
+            'color': 'red'
+        }
+        for res in reservations
+    ]
+    return JsonResponse(events, safe=False)
+
+def calendar(request):
+    return render(request, 'home/reservation.html')

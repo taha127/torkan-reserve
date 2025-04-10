@@ -1,5 +1,4 @@
 from re import search
-
 from django.db import models
 from xml.dom import ValidationErr
 from django.core.exceptions import ValidationError
@@ -75,9 +74,6 @@ class OperationSetting(models.Model):
     display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
 
 
-# نام و نام خانوادگی
-# شماره تلفن همراه
-
 
 class User(models.Model):
     name = models.CharField(max_length=50, verbose_name='نام و نام خانوادگی ')
@@ -95,12 +91,19 @@ class Time(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر',)
-    status_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
+    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
     volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
     start_session = models.TimeField(max_length=20, verbose_name='از ساعت ', null=True, blank=True, default='08:00')
     end_session = models.TimeField(max_length=20, verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
 
+    def get_shamsi_date(self):
+        # تبدیل تاریخ میلادی به شمسی برای نمایش
+        print(f"self type: {type(self)}")
+        return jdatetime.date.fromgregorian(date=self.shamsi_date).strftime("%Y/%m/%d")
+
     def __str__(self):
-        return f"{self.user}{self.status_date}{self.operation}"
+        return f"{self.user}{self.shamsi_date}{self.operation}"
+
+

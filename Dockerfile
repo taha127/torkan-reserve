@@ -9,3 +9,9 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 
 COPY . /code/
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Run the app with gunicorn
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000

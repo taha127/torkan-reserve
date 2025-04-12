@@ -7,6 +7,7 @@ Django==5.1.7
 django-cache-url==3.4.5
 django-jalali==7.3.0
 environs==14.1.1
+gunicorn==23.0.0
 idna==3.10
 jalali_core==1.0.0
 jdatetime==5.2.0

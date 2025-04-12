@@ -6,4 +6,4 @@ __pypackages__/
 .venv
 venv/
 .idea/
-
+/staticfiles/
